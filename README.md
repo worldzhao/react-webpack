@@ -2,7 +2,7 @@
 
 从零搭建 react 工程项目
 
-## babel 部分
+## [babel](https://babeljs.io/)
 
 ```
 原始代码 --> [Babel Plugin] --> 转换后的代码
@@ -76,8 +76,12 @@ stage-0 = stage-1 + stage-2 + stage-3
 - [21 分钟精通前端 Polyfill 方案](https://zhuanlan.zhihu.com/p/27777995)
 - [babel-polyfill VS babel-runtime VS babel-preset-env](https://juejin.im/post/5aefe0a6f265da0b9e64fa54)
 
-## webpack-dev-server
+## [webpack-dev-server](https://webpack.js.org/configuration/dev-server/#devserver)
 
 Use webpack with a development server that provides live reloading. This should be used for development only
 
 提供热更新的开发服务器，仅仅用于开发环境。
+
+当 webpack-dev-server 为 3 的时候，需要与 webpack4 搭配使用，与 webpack3 同时使用则会提示安装 webpack-cli
+
+由于本项目使用的是 webpack3，所以安装 webpack-dev-server 的版本为 2

@@ -27,7 +27,12 @@ module.exports = {
   },
   /* webpack-dev-server配置*/
   devServer: {
-    contentBase: path.join(__dirname, '../dist')
+    /* 服务根目录 默认指向项目根目录 */
+    contentBase: path.join(__dirname, '../dist'),
+    /* 所有404 定位到根路径 */
+    historyApiFallback: true,
+    /* 服务端口 */
+    port: 8080
   },
   /* 输出到dist文件夹，输出文件名称为bundle.js */
   output: {

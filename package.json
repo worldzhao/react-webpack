@@ -1,0 +1,23 @@
+{
+  "name": "react-webpack",
+  "version": "1.0.0",
+  "description": "从零搭建react工程项目，包括开发环境以及生产环境",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/worldzhao/react-webpack.git"
+  },
+  "keywords": [
+    "react",
+    "webpack3"
+  ],
+  "author": "worldzhao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/worldzhao/react-webpack/issues"
+  },
+  "homepage": "https://github.com/worldzhao/react-webpack#readme"
+}

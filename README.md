@@ -35,32 +35,41 @@ stage-0 = stage-1 + stage-2 + stage-3
 | @babel/polyfill                                         | 完整模拟 ES2015+环境                                    | 体积过大，污染全局对象和内置的对象原型 | 应用中使用         |
 | @babel/preset-env[useBuiltIns:"entry"] + babel-polyfill | 按需引入,以 target 最低要求为准                         | 可配置性高                             | -                  |
 
-### [Babel 正在向每个文件中注入 help 并使代码膨胀](https://github.com/babel/babel-loade)
+注：方案 1 中的@babel/runtime + @babel/plugin-transform-runtime 在 babel7 下只包含 helpers，如果想实现 polyfill ，需要使用@babel/runtime-corejs2，[升级详情](https://babel.docschina.org/docs/en/v7-migration#babel-runtime-babel-plugin-transform-runtime)
+
+```
+["@babel/plugin-transform-runtime", {
+    "corejs": 2
+}],
+```
+
+### [Babel 正在向每个文件中注入 help 并使代码膨胀](https://github.com/babel/babel-loader)
 
 解决方案：[@babel/runtime + @babel/plugin-transform-runtime](https://babeljs.io/docs/en/babel-plugin-transform-runtime)
 
 ```
 {
   "plugins": [
-    [
       "@babel/plugin-transform-runtime",
-      {
-        "corejs": false, // 假设polyfill由其他方案提供
-        "helpers": true,
-        "regenerator": true,
-        "useESModules": false
-      }
-    ]
   ]
 }
 ```
 
 配置详情参见: /.babelrc 以及/config/webpack.dev.config.js
 
+## 总结
+
+1.  转译方案: @babel/preset-env + @babel/preset-react + 通过命令行升级的 stage-0
+2.  polyfill 方案: @babel/polyfill + @babel/preset-env[useBuiltIns:"entry"]
+3.  helpers 重复注入解决: @babel/runtime + @babel/plugin-transform-runtime
+
+推荐阅读:
+
 - [babel](https://babeljs.io/)
 - [babel/babel-loader](https://github.com/babel/babel-loader)
 - [大前端的自动化工厂— babel](https://zhuanlan.zhihu.com/p/44174870)
 - [babel 7 教程](https://blog.zfanw.com/babel-js/)
+- [升级至 babel 7](https://babel.docschina.org/docs/en/v7-migration)
 - [再见，babel-preset-2015](https://zhuanlan.zhihu.com/p/29506685)
 - [你真的会用 babel 吗？ ](https://github.com/sunyongjian/blog/issues/30)
 - [21 分钟精通前端 Polyfill 方案](https://zhuanlan.zhihu.com/p/27777995)

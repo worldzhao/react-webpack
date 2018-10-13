@@ -75,3 +75,9 @@ stage-0 = stage-1 + stage-2 + stage-3
 - [你真的会用 babel 吗？ ](https://github.com/sunyongjian/blog/issues/30)
 - [21 分钟精通前端 Polyfill 方案](https://zhuanlan.zhihu.com/p/27777995)
 - [babel-polyfill VS babel-runtime VS babel-preset-env](https://juejin.im/post/5aefe0a6f265da0b9e64fa54)
+
+## webpack-dev-server
+
+Use webpack with a development server that provides live reloading. This should be used for development only
+
+提供热更新的开发服务器，仅仅用于开发环境。

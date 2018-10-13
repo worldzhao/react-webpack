@@ -25,7 +25,10 @@ module.exports = {
       }
     ]
   },
-
+  /* webpack-dev-server配置*/
+  devServer: {
+    contentBase: path.join(__dirname, '../dist')
+  },
   /* 输出到dist文件夹，输出文件名称为bundle.js */
   output: {
     path: path.join(__dirname, '../dist'),

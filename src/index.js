@@ -1,1 +1,4 @@
-document.getElementById('app').innerHTML = 'webpack works'
+import '@babel/polyfill'
+const a = () => {
+  console.log(1)
+}

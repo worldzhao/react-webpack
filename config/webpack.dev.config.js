@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 /* node处理路径的工具库 */
 const path = require('path')
 
@@ -32,8 +33,14 @@ module.exports = {
     /* 所有404 定位到根路径 */
     historyApiFallback: true,
     /* 服务端口 */
-    port: 8080
+    port: 8080,
+    /* 热更新 */
+    hot: true,
+    /* 自动打开页面 */
+    open: true
   },
+  /* webpack 热更新 插件*/
+  plugins: [new webpack.HotModuleReplacementPlugin()],
   /* 输出到dist文件夹，输出文件名称为bundle.js */
   output: {
     path: path.join(__dirname, '../dist'),

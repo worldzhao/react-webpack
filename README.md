@@ -85,3 +85,51 @@ Use webpack with a development server that provides live reloading. This should 
 当 webpack-dev-server 为 3 的时候，需要与 webpack4 搭配使用，与 webpack3 同时使用则会提示安装 webpack-cli
 
 由于本项目使用的是 webpack3，所以安装 webpack-dev-server 的版本为 2
+
+### 热更新
+
+1.  CLI 方式
+
+```
+"scripts": {
+    "start": "webpack-dev-server --config ./config/webpack.dev.config.js --color --progress --hot"
+  },
+```
+
+2.  Node.js api 方式
+
+```js
+const webpack = require('webpack')
+
+module.exports = {
+  // ...
+  /* webpack-dev-server配置*/
+  devServer: {
+    /* 服务根目录 默认指向项目根目录 */
+    contentBase: path.join(__dirname, '../dist'),
+    /* 所有404 定位到根路径 */
+    historyApiFallback: true,
+    /* 服务端口 */
+    port: 8080,
+    /* 热更新 */
+    hot: true
+  },
+
+  plugins: [new webpack.HotModuleReplacementPlugin()]
+  //...
+}
+```
+
+但是发现配置了这些，每次修改了 js 依旧会自动刷新页面，而非热更新。
+
+还需在 index.js 中进行配置
+
+```js
+if (module.hot) {
+  module.hot.accept(() => {
+    ReactDom.render(getRouter(), document.getElementById('app'))
+  })
+}
+
+ReactDom.render(getRouter(), document.getElementById('app'))
+```

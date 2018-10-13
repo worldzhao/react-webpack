@@ -3,17 +3,14 @@
         [
             "@babel/preset-env",
             {
-                "targets": {
-                    "browsers": [
-                        "last 10 versions"
-                    ]
-                },
+                "targets": { "browsers": "last 2 versions" } ,
                 "useBuiltIns": "entry"
             }
         ],
         "@babel/preset-react"
     ],
     "plugins": [
+        "react-hot-loader/babel",
         "@babel/plugin-transform-runtime",
         "@babel/plugin-syntax-dynamic-import",
         "@babel/plugin-syntax-import-meta",

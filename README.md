@@ -120,16 +120,49 @@ module.exports = {
 }
 ```
 
-但是发现配置了这些，每次修改了 js 依旧会自动刷新页面，而非热更新。
+配置了这些，每次修改了 js 依旧会自动刷新页面，而非热更新。
 
 还需在 index.js 中进行配置
 
 ```js
 if (module.hot) {
   module.hot.accept(() => {
-    ReactDom.render(getRouter(), document.getElementById('app'))
+    ReactDom.render(<App />, document.getElementById('app'))
   })
 }
 
-ReactDom.render(getRouter(), document.getElementById('app'))
+ReactDom.render(<App />, document.getElementById('app'))
 ```
+
+### 使用[react-hot-loader](https://github.com/gaearon/react-hot-loader) 维持组件状态
+
+虽然上面实现了 js 修改不刷新页面更新视图的效果，但是组件的 state 状态却被丢失了，可以通过配合 react-hot-loader 插件维持 state 状态
+
+- react-hot-loader v4 配置方式
+
+  1.  安装 react-hot-loader
+
+  ```
+  npm i react-hot-loader@next -D
+  ```
+
+  2.  配置 babel
+
+  ```
+   "plugins": ["react-hot-loader/babel"]
+  ```
+
+  3.  修改根组件
+
+  ```
+  import { hot } from 'react-hot-loader'
+
+  export default hot(module)(App)
+  ```
+
+- react-hot-loader v3 配置方式
+
+  1.  安装 react-hot-loader
+  2.  配置 babel
+  3.  修改根组件
+  4.  webpack 配置文件入口修改

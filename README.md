@@ -14,8 +14,9 @@
 
 1.  `@babel/core`调用 Babel 的 API 进行转码
 2.  `babel-loader`[webpack 的 loader]（https://github.com/babel/babel-loader)
-3.  `@babel/preset-env` 在没有任何配置选项的情况下，babel-preset-env 与 babel-preset-latest（或者 babel-preset-es2015，babel-preset-es2016 和 babel-preset-es2017 一起）的行为完全相同。 4.~~`@babel/preset-stage-0`稻草人提案(babel7 已移除)~~通过 npx babel-upgrade --write 升级
-4.  `@babel/preset-react`react 语法转译
+3.  `@babel/preset-env` 在没有任何配置选项的情况下，babel-preset-env 与 babel-preset-latest（或者 babel-preset-es2015，babel-preset-es2016 和 babel-preset-es2017 一起）的行为完全相同。
+4.  ~~`@babel/preset-stage-0`稻草人提案(babel7 已移除)~~通过 npx babel-upgrade --write 升级
+5.  `@babel/preset-react`react 语法转译
     preset 即 plugin 的套餐，无需针对一个个语法规则去安装 plugin
 
 注：[plugin 分为转译 plugin/语法 plugin/混合 plugin](https://babel.docschina.org/docs/en/6.26.3/plugins#es2015)

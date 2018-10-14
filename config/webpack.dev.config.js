@@ -16,27 +16,37 @@ module.exports = {
       router: path.join(__dirname, '../src/router')
     }
   },
-  /*src文件夹下面的以.js(x)结尾的文件，要使用babel解析*/
-  /*cacheDirectory是用来缓存编译结果，下次编译加速*/
   module: {
     rules: [
+      /* 使用babel-loader编译js相关文件 */
       {
-        test: /\.jsx?$/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            cacheDirectory: true
-          }
+        test: /\.(js|jsx|mjs)?$/,
+        loader: 'babel-loader',
+        options: {
+          /*cacheDirectory是用来缓存编译结果，下次编译加速*/
+          cacheDirectory: true
         },
+        /* 指定src文件下的内容 */
         include: path.join(__dirname, '../src')
       },
+      /* 处理css */
       {
         test: /\.css$/,
         loader: ['style-loader', 'css-loader']
       },
+      /* 处理less */
       {
         test: /\.less$/,
         loader: ['style-loader', 'css-loader', 'less-loader']
+      },
+      /* 处理图片 */
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        loader: 'url-loader',
+        options: {
+          /* 小于等于8K的图片会被转成base64编码，直接插入HTML中，减少HTTP请求。 */
+          limit: 8192
+        }
       }
     ]
   },

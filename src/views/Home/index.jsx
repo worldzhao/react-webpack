@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './index.less'
+import imgSrc from './little-pic.jpg'
 export default class Home extends Component {
   constructor(props) {
     super(props)
@@ -20,6 +21,7 @@ export default class Home extends Component {
         当前计数：{this.state.count}
         <br />
         <button onClick={() => this.handleClick()}>自增1</button>
+        <img src={imgSrc} alt="" />
       </div>
     )
   }

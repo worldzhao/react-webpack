@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
-import Home from '../views/Home'
-import Demo from '../views/Demo'
+import Home from 'views/Home'
+import Demo from 'views/Demo'
 import { hot } from 'react-hot-loader'
 
 class App extends React.Component {

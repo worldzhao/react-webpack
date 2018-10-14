@@ -58,7 +58,7 @@ stage-0 = stage-1 + stage-2 + stage-3
 
 配置详情参见: /.babelrc 以及/config/webpack.dev.config.js
 
-## 总结
+### 总结
 
 1.  转译方案: @babel/preset-env + @babel/preset-react + 通过命令行升级的 stage-0
 2.  polyfill 方案: @babel/polyfill + @babel/preset-env[useBuiltIns:"entry"]
@@ -82,7 +82,7 @@ Use webpack with a development server that provides live reloading. This should 
 
 提供热更新的开发服务器，仅仅用于开发环境。
 
-当 webpack-dev-server 为 3 的时候，需要与 webpack4 搭配使用，与 webpack3 同时使用则会提示安装 webpack-cli
+当 webpack-dev-server 版本为 3 的时候，需要与 webpack4 搭配使用，与 webpack3 同时使用则会提示安装 webpack-cli
 
 由于本项目使用的是 webpack3，所以安装 webpack-dev-server 的版本为 2
 
@@ -166,3 +166,77 @@ ReactDom.render(<App />, document.getElementById('app'))
   2.  配置 babel
   3.  修改根组件
   4.  webpack 配置文件入口修改
+
+### 总结
+
+有效的开发时热更新增加了`⌘+R`的寿命，也极大提高了我们的开发体验。
+这一部分碰到较多的是版本问题，一定要多看第三方库的 github
+
+## 配置 resolve 优化 import 路径
+
+### resolve.extensions
+
+如果引入的文件是`.js`后缀结尾，引入时可以不用加上后缀，但是如果是`.jsx`后缀结尾，要想不加上后缀，则要进行一下配置，否则会找不到模块。
+
+`/config/webpack.dev.config.js`配置
+
+```js
+module.exports = {
+  // ...
+  resolve: {
+    /* 以下后缀文件在引入时可以不用补全后缀名 */
+    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx']
+  }
+  // ...
+}
+```
+
+优化前:
+
+```js
+import Home from '../views/Home/index.jsx'
+```
+
+优化后:
+
+```js
+import Home from '../views/Home/index'
+```
+
+如果引入的文件名是 `index` 也可以简写成
+
+```js
+import Home from '../views/Home'
+```
+
+### resolve.alias
+
+`/config/webpack.dev.config.js`配置
+
+```js
+module.exports = {
+  // ...
+  resolve: {
+    /* 以下后缀文件在引入时可以不用补全后缀名 */
+    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    alias: {
+      views: path.join(__dirname, '../src/views'),
+      components: path.join(__dirname, '../src/components'),
+      router: path.join(__dirname, '../src/router')
+    }
+  }
+  // ...
+}
+```
+
+优化前:
+
+```js
+import Home from '../views/Home'
+```
+
+优化后:
+
+```js
+import Home from 'views/Home/index'
+```

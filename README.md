@@ -10,7 +10,7 @@
 
 ### 转译
 
-安装以下依赖：
+安装以下依赖:
 
 1.  `@babel/core`调用 Babel 的 API 进行转码
 2.  `babel-loader`[webpack 的 loader]（https://github.com/babel/babel-loader)
@@ -19,7 +19,7 @@
 5.  `@babel/preset-react`react 语法转译
     preset 即 plugin 的套餐，无需针对一个个语法规则去安装 plugin
 
-注：[plugin 分为转译 plugin/语法 plugin/混合 plugin](https://babel.docschina.org/docs/en/6.26.3/plugins#es2015)
+注:[plugin 分为转译 plugin/语法 plugin/混合 plugin](https://babel.docschina.org/docs/en/6.26.3/plugins#es2015)
 
 ```
 env = es2015 + es2016 + es2017
@@ -36,7 +36,7 @@ stage-0 = stage-1 + stage-2 + stage-3
 | @babel/polyfill                                         | 完整模拟 ES2015+环境                                    | 体积过大，污染全局对象和内置的对象原型 | 应用中使用         |
 | @babel/preset-env[useBuiltIns:"entry"] + babel-polyfill | 按需引入,以 target 最低要求为准                         | 可配置性高                             | -                  |
 
-注：方案 1 中的@babel/runtime + @babel/plugin-transform-runtime 在 babel7 下只包含 helpers，如果想实现 polyfill ，需要使用@babel/runtime-corejs2，[升级详情](https://babel.docschina.org/docs/en/v7-migration#babel-runtime-babel-plugin-transform-runtime)
+注:方案 1 中的@babel/runtime + @babel/plugin-transform-runtime 在 babel7 下只包含 helpers，如果想实现 polyfill ，需要使用@babel/runtime-corejs2，[升级详情](https://babel.docschina.org/docs/en/v7-migration#babel-runtime-babel-plugin-transform-runtime)
 
 ```
 ["@babel/plugin-transform-runtime", {
@@ -46,7 +46,7 @@ stage-0 = stage-1 + stage-2 + stage-3
 
 ### [Babel 正在向每个文件中注入 helper 并使代码膨胀](https://github.com/babel/babel-loader)
 
-解决方案：[@babel/runtime + @babel/plugin-transform-runtime](https://babeljs.io/docs/en/babel-plugin-transform-runtime)
+解决方案:[@babel/runtime + @babel/plugin-transform-runtime](https://babeljs.io/docs/en/babel-plugin-transform-runtime)
 
 ```
 {
@@ -277,7 +277,7 @@ module.exports = {
 }
 ```
 
-注意：loader 的处理顺序是从后往前的，即 css 文件首先经过 css-loader 处理再经过 style-loader 处理
+注意:loader 的处理顺序是从后往前的，即 css 文件首先经过 css-loader 处理再经过 style-loader 处理
 
 ### 编译 less/sass/stylus
 
@@ -337,12 +337,12 @@ module.exports = {
 }
 ```
 
-注：source map 存在各种组合，不同组合的构建(build)、重新构建(rebuild) 速度以及生成的代码的质量(quality) 存在差异，应根据环境、应用场景的不同开启不同的 source map，此处参考 create-react-app 的配置，开发环境开启`cheap-module-source-map`
+注:source map 存在各种组合，不同组合的构建(build)、重新构建(rebuild) 速度以及生成的代码的质量(quality) 存在差异，应根据环境、应用场景的不同开启不同的 source map，此处参考 create-react-app 的配置，开发环境开启`cheap-module-source-map`
 
-推荐阅读：
+推荐阅读:
 
 - [JavaScript Source Map 详解](http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html)
-- [打破砂锅问到底：详解 Webpack 中的 sourcemap](https://segmentfault.com/a/1190000008315937)
+- [打破砂锅问到底:详解 Webpack 中的 sourcemap](https://segmentfault.com/a/1190000008315937)
 - [webpack-devtool](https://webpack.docschina.org/configuration/devtool/)
 
 ## 使用 url-loader 处理图片
@@ -355,7 +355,7 @@ module.exports = {
 
 ## Code Splitting
 
-以下内容总结自：[Webpack 大法之 Code Splitting
+以下内容总结自:[Webpack 大法之 Code Splitting
 ](https://zhuanlan.zhihu.com/p/26710831)
 强烈好文，推荐阅读
 
@@ -364,7 +364,7 @@ module.exports = {
 1.  第三方库无法进行缓存，和业务代码打包在一起
 2.  首屏压力过大，第一次加载所有代码
 
-解决方案：
+解决方案:
 
 - 分离业务代码和第三方库（vendor,CommonsChunkPlugin），进行第三方库缓存
 - 按需加载（利用 react-loadable(import())），只加载首屏需要的代码，减轻首屏压力
@@ -418,19 +418,19 @@ output: {
 },
 ```
 
-注：此处使用 chunkhash 而非 hash 是为了保证打包出来的 vendor 不会受业务代码的变更导致 vendor 的文件指纹(hash)变更，有利于进行缓存，还有一个 contenthash 可以用于处理 CSS 文件 hash 值失效的问题，推荐阅读[这篇文章](https://github.com/happylindz/blog/issues/7)
+注:此处使用 chunkhash 而非 hash 是为了保证打包出来的 vendor 不会受业务代码的变更导致 vendor 的文件指纹(hash)变更，有利于进行缓存，还有一个 contenthash 可以用于处理 CSS 文件 hash 值失效的问题，推荐阅读[这篇文章](https://github.com/happylindz/blog/issues/7)
 
-再注：
+再注:
 [热更新(HMR)不能和[chunkhash]同时使用](https://segmentfault.com/q/1010000011438869/a-1020000011441168)。
-解决方法：
-1： 如果是开发环境，将配置文件中的 chunkhash 替换为 hash
-2：如果是生产环境，不要使用参数 --hot
+解决方法:
+1: 如果是开发环境，将配置文件中的 chunkhash 替换为 hash
+2:如果是生产环境，不要使用参数 --hot
 所以我们暂时先改为 hash。
 
 现在我们运行`npm start`可以看见 webpack-bundle-analyzer 为我们生成的打包地图，实现了第三方库 vendor 与业务代码 app 的分离。
 如果改为 chunkhash ，修改业务代码也不会影响 vendor 名称变化。
 
-但是现在存在两个问题：
+但是现在存在两个问题:
 
 1.  页面报错。很明显，我们打包出来的 js 不是原来的 bundle.js ，需要每次打包后，修改 Html 文件中引入的 js 文件名吗？
 
@@ -466,6 +466,27 @@ module.exports = {
 #### 自动化分离 vendor
 
 解决问题 2
+
+移除入口文件的 vendor，修改 Plugin
+
+```js
+entry: {
+  app: path.join(__dirname, '../src/index.js')
+},
+```
+
+```js
+plugins:[
+  new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: ({ resource }) =>
+        resource &&
+        resource.indexOf('node_modules') >= 0 &&
+        resource.match(/\.js$/)
+    })],
+```
+
+将 node_modules 中以.js 结尾的文件打包到 vendor chunk，如果 vendor chunk 不存在的话，就创建一个新的。
 
 ### 按需加载
 

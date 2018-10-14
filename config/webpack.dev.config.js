@@ -10,8 +10,7 @@ const path = require('path')
 module.exports = {
   /* 入口文件 */
   entry: {
-    app: path.join(__dirname, '../src/index.js'),
-    vendor: ['react', 'react-router-dom', 'react-dom']
+    app: path.join(__dirname, '../src/index.js')
   },
   /* 输出到dist文件夹，输出文件名称为bundle.js */
   output: {
@@ -81,7 +80,11 @@ module.exports = {
     new BundleAnalyzerPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
+      name: 'vendor',
+      minChunks: ({ resource }) =>
+        resource &&
+        resource.indexOf('node_modules') >= 0 &&
+        resource.match(/\.js$/)
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')

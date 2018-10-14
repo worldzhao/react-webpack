@@ -240,3 +240,85 @@ import Home from '../views/Home'
 ```js
 import Home from 'views/Home/index'
 ```
+
+## 编译 css(预处理器)
+
+### 编译 css
+
+```
+npm i css-loader style-loader -D
+```
+
+[css-loader](https://github.com/webpack-contrib/css-loader): The css-loader interprets @import and url() like import/require() and will resolve them.
+
+css-loader 像处理`import`和`require()`一样去处理`@import` 和 `url()`
+
+[style-loader](https://github.com/webpack-contrib/style-loader):Adds CSS to the DOM by injecting a `<style>` tag
+
+style-loader 通过添加`<style>`标签的方式将 css 加入 dom
+
+webpack 通过使用二者将 css 导入到 js 中，最终通过 js 生 style 标签插入页面
+
+`/config/webpack.dev.config.js`配置
+
+```js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      // ...
+      {
+        test: /\.css$/,
+        loader: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+  // ...
+}
+```
+
+注意：loader 的处理顺序是从后往前的，即 css 文件首先经过 css-loader 处理再经过 style-loader 处理
+
+### 编译 less/sass/stylus
+
+首先安装 less 以及 less-loader
+
+```
+npm i less less-loader -D
+```
+
+[less-loader](https://github.com/webpack-contrib/less-loader):A Less loader for webpack. Compiles Less to CSS.
+
+将 less 编译成 css
+
+`/config/webpack.dev.config.js`配置
+
+```js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      // ...
+      {
+        test: /\.less$/,
+        loader: ['style-loader', 'css-loader', 'less-loader']
+      }
+    ]
+  }
+  // ...
+}
+```
+
+### CSS Modules(模块化)
+
+[官方教程](https://github.com/webpack-contrib/css-loader#modules)
+[CSS Modules 详解及 React 中实践](https://github.com/camsong/blog/issues/5)
+[CSS Modules 用法教程](http://www.ruanyifeng.com/blog/2016/06/css_modules.html)
+
+留坑待填
+
+### 集成 PostCSS
+
+[官方教程](https://github.com/postcss/postcss/blob/master/README-cn.md)
+
+留坑待填

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import './index.less'
 export default class Home extends Component {
   constructor(props) {
     super(props)
@@ -15,7 +15,7 @@ export default class Home extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="less-test">
         this is home~<br />
         当前计数：{this.state.count}
         <br />

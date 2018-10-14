@@ -253,7 +253,7 @@ npm i css-loader style-loader -D
 
 css-loader 像处理`import`和`require()`一样去处理`@import` 和 `url()`
 
-[style-loader](https://github.com/webpack-contrib/style-loader):Adds CSS to the DOM by injecting a `<style>` tag
+[style-loader](https://github.com/webpack-contrib/style-loader): Adds CSS to the DOM by injecting a `<style>` tag
 
 style-loader 通过添加`<style>`标签的方式将 css 加入 dom
 
@@ -344,3 +344,133 @@ module.exports = {
 - [JavaScript Source Map 详解](http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html)
 - [打破砂锅问到底：详解 Webpack 中的 sourcemap](https://segmentfault.com/a/1190000008315937)
 - [webpack-devtool](https://webpack.docschina.org/configuration/devtool/)
+
+## 使用 url-loader 处理图片
+
+略
+
+## 使用 file-loader 处理字体等文件
+
+略
+
+## Code Splitting
+
+以下内容总结自：[Webpack 大法之 Code Splitting
+](https://zhuanlan.zhihu.com/p/26710831)
+强烈好文，推荐阅读
+
+现在我们的 bundle.js 太过臃肿，存在两个问题
+
+1.  第三方库无法进行缓存，和业务代码打包在一起
+2.  首屏压力过大，第一次加载所有代码
+
+解决方案：
+
+- 分离业务代码和第三方库（vendor,CommonsChunkPlugin），进行第三方库缓存
+- 按需加载（利用 react-loadable(import())），只加载首屏需要的代码，减轻首屏压力
+
+### 准备工作
+
+通过[webpack-bundle-analyzer
+](https://www.npmjs.com/package/webpack-bundle-analyzer)插件，可以使我们更为直观的观察到打包文件的变化
+
+安装
+
+```
+ npm install --save-dev webpack-bundle-analyzer
+```
+
+使用
+
+```
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = {
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ]
+}
+```
+
+### 提取公用代码
+
+回忆一下之前的打包方式，
+
+1.  确定入口 - index.js
+2.  确定出口 - bundle.js(包含业务代码以及第三方库)
+3.  创建 Html 文件，引入 bundle.js
+
+现在修改入口为业务代码入口以及第三方库代码入口
+
+```js
+entry: {
+  app: path.join(__dirname, '../src/index.js'),
+  vendor: ['react', 'react-router-dom', 'react-dom']
+},
+```
+
+出口也进行修改
+
+```js
+output: {
+  path: path.join(__dirname, '../dist'),
+  filename: '[name].[chunkhash].js'
+},
+```
+
+注：此处使用 chunkhash 而非 hash 是为了保证打包出来的 vendor 不会受业务代码的变更导致 vendor 的文件指纹(hash)变更，有利于进行缓存，还有一个 contenthash 可以用于处理 CSS 文件 hash 值失效的问题，推荐阅读[这篇文章](https://github.com/happylindz/blog/issues/7)
+
+再注：
+[热更新(HMR)不能和[chunkhash]同时使用](https://segmentfault.com/q/1010000011438869/a-1020000011441168)。
+解决方法：
+1： 如果是开发环境，将配置文件中的 chunkhash 替换为 hash
+2：如果是生产环境，不要使用参数 --hot
+所以我们暂时先改为 hash。
+
+现在我们运行`npm start`可以看见 webpack-bundle-analyzer 为我们生成的打包地图，实现了第三方库 vendor 与业务代码 app 的分离。
+如果改为 chunkhash ，修改业务代码也不会影响 vendor 名称变化。
+
+但是现在存在两个问题：
+
+1.  页面报错。很明显，我们打包出来的 js 不是原来的 bundle.js ，需要每次打包后，修改 Html 文件中引入的 js 文件名吗？
+
+2.  随着依赖库的增加，每次都要去修改入口文件吗？
+
+#### html-webpack-plugin
+
+解决问题 1
+[html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)This is a webpack plugin that simplifies creation of HTML files to serve your webpack bundles.This is especially useful for webpack bundles that include a hash in the filename which changes every compilation.
+
+这是一个 可以简化 HTML 文件的创建的 webpack 插件，以便为您的 webpack 打包后的文件提供服务。这对于每次打包过程中造成文件名 hash 修改的打包文件特别有用。
+
+安装
+
+```
+npm i --save-dev html-webpack-plugin
+```
+
+使用
+
+1.  在根路径下创建一个 public 文件夹，在文件夹内创建自己的 html 模板文件
+
+2.  webpack.dev.config.js
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  plugins: [new HtmlWebpackPlugin()]
+}
+```
+
+#### 自动化分离 vendor
+
+解决问题 2
+
+### 按需加载
+
+## 缓存
+
+```
+
+```

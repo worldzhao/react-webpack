@@ -1,10 +1,23 @@
 const webpack = require('webpack')
+/* 打包分析工具 */
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
+/* 自动生成html文件并且导入打包后的 js 的工具 */
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 /* node处理路径的工具库 */
 const path = require('path')
 
 module.exports = {
   /* 入口文件 */
-  entry: path.join(__dirname, '../src/index.js'),
+  entry: {
+    app: path.join(__dirname, '../src/index.js'),
+    vendor: ['react', 'react-router-dom', 'react-dom']
+  },
+  /* 输出到dist文件夹，输出文件名称为bundle.js */
+  output: {
+    path: path.join(__dirname, '../dist'),
+    filename: '[name].[hash].js'
+  },
   /* 开启source-map */
   devtool: 'cheap-module-source-map',
   resolve: {
@@ -64,10 +77,14 @@ module.exports = {
     open: true
   },
   /* webpack 热更新 插件*/
-  plugins: [new webpack.HotModuleReplacementPlugin()],
-  /* 输出到dist文件夹，输出文件名称为bundle.js */
-  output: {
-    path: path.join(__dirname, '../dist'),
-    filename: 'bundle.js'
-  }
+  plugins: [
+    new BundleAnalyzerPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor'
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, '../public/index.html')
+    })
+  ]
 }

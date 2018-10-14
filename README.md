@@ -44,7 +44,7 @@ stage-0 = stage-1 + stage-2 + stage-3
 }],
 ```
 
-### [Babel 正在向每个文件中注入 help 并使代码膨胀](https://github.com/babel/babel-loader)
+### [Babel 正在向每个文件中注入 helper 并使代码膨胀](https://github.com/babel/babel-loader)
 
 解决方案：[@babel/runtime + @babel/plugin-transform-runtime](https://babeljs.io/docs/en/babel-plugin-transform-runtime)
 
@@ -322,3 +322,25 @@ module.exports = {
 [官方教程](https://github.com/postcss/postcss/blob/master/README-cn.md)
 
 留坑待填
+
+## devtool 提高调试体验
+
+webpack 打包后的代码和我们编写的代码相去甚远，这就造成了在浏览器中调试的不便，此处我们通过配置 devtool ,开启 source map 使得能够在浏览器中进行源码级别的调试
+
+`/config/webpack.dev.config.js`配置
+
+```js
+module.exports = {
+  // ...
+  devtool: 'cheap-module-source-map'
+  // ...
+}
+```
+
+注：source map 存在各种组合，不同组合的构建(build)、重新构建(rebuild) 速度以及生成的代码的质量(quality) 存在差异，应根据环境、应用场景的不同开启不同的 source map，此处参考 create-react-app 的配置，开发环境开启`cheap-module-source-map`
+
+推荐阅读：
+
+- [JavaScript Source Map 详解](http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html)
+- [打破砂锅问到底：详解 Webpack 中的 sourcemap](https://segmentfault.com/a/1190000008315937)
+- [webpack-devtool](https://webpack.docschina.org/configuration/devtool/)

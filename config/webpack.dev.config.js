@@ -5,7 +5,8 @@ const path = require('path')
 module.exports = {
   /* 入口文件 */
   entry: path.join(__dirname, '../src/index.js'),
-
+  /* 开启source-map */
+  devtool: 'cheap-module-source-map',
   resolve: {
     /* 以下后缀文件在引入时可以不用补全后缀名 */
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],

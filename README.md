@@ -14,10 +14,10 @@
 
 1.  `@babel/core`调用 Babel 的 API 进行转码
 2.  `babel-loader`[webpack 的 loader]（https://github.com/babel/babel-loader)
-3.  `@babel/preset-env` 在没有任何配置选项的情况下，babel-preset-env 与 babel-preset-latest（或者 babel-preset-es2015，babel-preset-es2016 和 babel-preset-es2017 一起）的行为完全相同。
+3.  `@babel/preset-env` 在没有任何配置选项的情况下, babel-preset-env 与 babel-preset-latest（或者 babel-preset-es2015, babel-preset-es2016 和 babel-preset-es2017 一起）的行为完全相同.
 4.  ~~`@babel/preset-stage-0`稻草人提案(babel7 已移除)~~通过 npx babel-upgrade --write 升级
 5.  `@babel/preset-react`react 语法转译
-    preset 即 plugin 的套餐，无需针对一个个语法规则去安装 plugin
+    preset 即 plugin 的套餐, 无需针对一个个语法规则去安装 plugin
 
 注:[plugin 分为转译 plugin/语法 plugin/混合 plugin](https://babel.docschina.org/docs/en/6.26.3/plugins#es2015)
 
@@ -26,20 +26,20 @@ env = es2015 + es2016 + es2017
 stage-0 = stage-1 + stage-2 + stage-3
 ```
 
-通过配置 targets 可以避免浏览器已经支持的特性被转译，如果同时设置"IE >= 9"与 "chrome >= 66"，以 "IE >= 9" 为准进行转译
+通过配置 targets 可以避免浏览器已经支持的特性被转译, 如果同时设置"IE >= 9"与 "chrome >= 66", 以 "IE >= 9" 为准进行转译
 
 ### polyfill
 
 | 方案                                                    | 优点                                                    | 缺点                                   | 推荐使用环境       |
 | ------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------- | ------------------ |
-| @babel/runtime + @babel/plugin-transform-runtime        | 按需引入，打包体积小，移除冗余工具函数(helper function) | 不模拟实例方法                         | 开发库、工具中使用 |
-| @babel/polyfill                                         | 完整模拟 ES2015+环境                                    | 体积过大，污染全局对象和内置的对象原型 | 应用中使用         |
-| @babel/preset-env[useBuiltIns:"entry"] + babel-polyfill | 按需引入,以 target 最低要求为准                         | 可配置性高                             | -                  |
+| @babel/runtime + @babel/plugin-transform-runtime        | 按需引入, 打包体积小, 移除冗余工具函数(helper function) | 不模拟实例方法                         | 开发库、工具中使用 |
+| @babel/polyfill                                         | 完整模拟 ES2015+环境                                    | 体积过大, 污染全局对象和内置的对象原型 | 应用中使用         |
+| @babel/preset-env[useBuiltIns:"entry"] + babel-polyfill | 按需引入, 以 target 最低要求为准                        | 可配置性高                             | -                  |
 
-注:方案 1 中的@babel/runtime + @babel/plugin-transform-runtime 在 babel7 下只包含 helpers，如果想实现 polyfill ，需要使用@babel/runtime-corejs2，[升级详情](https://babel.docschina.org/docs/en/v7-migration#babel-runtime-babel-plugin-transform-runtime)
+注:方案 1 中的@babel/runtime + @babel/plugin-transform-runtime 在 babel7 下只包含 helpers, 如果想实现 polyfill , 需要使用@babel/runtime-corejs2, [升级详情](https://babel.docschina.org/docs/en/v7-migration#babel-runtime-babel-plugin-transform-runtime)
 
 ```
-["@babel/plugin-transform-runtime", {
+["@babel/plugin-transform-runtime",  {
     "corejs": 2
 }],
 ```
@@ -71,7 +71,7 @@ stage-0 = stage-1 + stage-2 + stage-3
 - [大前端的自动化工厂— babel](https://zhuanlan.zhihu.com/p/44174870)
 - [babel 7 教程](https://blog.zfanw.com/babel-js/)
 - [升级至 babel 7](https://babel.docschina.org/docs/en/v7-migration)
-- [再见，babel-preset-2015](https://zhuanlan.zhihu.com/p/29506685)
+- [再见, babel-preset-2015](https://zhuanlan.zhihu.com/p/29506685)
 - [你真的会用 babel 吗？ ](https://github.com/sunyongjian/blog/issues/30)
 - [21 分钟精通前端 Polyfill 方案](https://zhuanlan.zhihu.com/p/27777995)
 - [babel-polyfill VS babel-runtime VS babel-preset-env](https://juejin.im/post/5aefe0a6f265da0b9e64fa54)
@@ -80,11 +80,11 @@ stage-0 = stage-1 + stage-2 + stage-3
 
 Use webpack with a development server that provides live reloading. This should be used for development only
 
-提供热更新的开发服务器，仅仅用于开发环境。
+提供热更新的开发服务器, 仅仅用于开发环境.
 
-当 webpack-dev-server 版本为 3 的时候，需要与 webpack4 搭配使用，与 webpack3 同时使用则会提示安装 webpack-cli
+当 webpack-dev-server 版本为 3 的时候, 需要与 webpack4 搭配使用, 与 webpack3 同时使用则会提示安装 webpack-cli
 
-由于本项目使用的是 webpack3，所以安装 webpack-dev-server 的版本为 2
+由于本项目使用的是 webpack3, 所以安装 webpack-dev-server 的版本为 2
 
 ### 热更新
 
@@ -120,7 +120,7 @@ module.exports = {
 }
 ```
 
-配置了这些，每次修改了 js 依旧会自动刷新页面，而非热更新。
+配置了这些, 每次修改了 js 依旧会自动刷新页面, 而非热更新.
 
 还需在 index.js 中进行配置
 
@@ -136,7 +136,7 @@ ReactDom.render(<App />, document.getElementById('app'))
 
 ### 使用[react-hot-loader](https://github.com/gaearon/react-hot-loader) 维持组件状态
 
-虽然上面实现了 js 修改不刷新页面更新视图的效果，但是组件的 state 状态却被丢失了，可以通过配合 react-hot-loader 插件维持 state 状态
+虽然上面实现了 js 修改不刷新页面更新视图的效果, 但是组件的 state 状态却被丢失了, 可以通过配合 react-hot-loader 插件维持 state 状态
 
 - react-hot-loader v4 配置方式
 
@@ -169,14 +169,14 @@ ReactDom.render(<App />, document.getElementById('app'))
 
 ### 总结
 
-有效的开发时热更新增加了`⌘+R`的寿命，也极大提高了我们的开发体验。
-这一部分碰到较多的是版本问题，一定要多看第三方库的 github
+有效的开发时热更新增加了`⌘+R`的寿命, 也极大提高了我们的开发体验.
+这一部分碰到较多的是版本问题, 一定要多看第三方库的 github
 
 ## 配置 resolve 优化 import 路径
 
 ### resolve.extensions
 
-如果引入的文件是`.js`后缀结尾，引入时可以不用加上后缀，但是如果是`.jsx`后缀结尾，要想不加上后缀，则要进行一下配置，否则会找不到模块。
+如果引入的文件是`.js`后缀结尾, 引入时可以不用加上后缀, 但是如果是`.jsx`后缀结尾, 要想不加上后缀, 则要进行一下配置, 否则会找不到模块.
 
 `/config/webpack.dev.config.js`配置
 
@@ -257,7 +257,7 @@ css-loader 像处理`import`和`require()`一样去处理`@import` 和 `url()`
 
 style-loader 通过添加`<style>`标签的方式将 css 加入 dom
 
-webpack 通过使用二者将 css 导入到 js 中，最终通过 js 生 style 标签插入页面
+webpack 通过使用二者将 css 导入到 js 中, 最终通过 js 生 style 标签插入页面
 
 `/config/webpack.dev.config.js`配置
 
@@ -277,7 +277,7 @@ module.exports = {
 }
 ```
 
-注意:loader 的处理顺序是从后往前的，即 css 文件首先经过 css-loader 处理再经过 style-loader 处理
+注意:loader 的处理顺序是从后往前的, 即 css 文件首先经过 css-loader 处理再经过 style-loader 处理
 
 ### 编译 less/sass/stylus
 
@@ -325,7 +325,9 @@ module.exports = {
 
 ## devtool 提高调试体验
 
-webpack 打包后的代码和我们编写的代码相去甚远，这就造成了在浏览器中调试的不便，此处我们通过配置 devtool ,开启 source map 使得能够在浏览器中进行源码级别的调试
+webpack 打包后的代码和我们编写的代码相去甚远, 这就造成了在浏览器中调试的不便.
+
+此处我们通过配置 devtool, 开启 source map 使得能够在浏览器中进行源码级别的调试
 
 `/config/webpack.dev.config.js`配置
 
@@ -337,7 +339,9 @@ module.exports = {
 }
 ```
 
-注:source map 存在各种组合，不同组合的构建(build)、重新构建(rebuild) 速度以及生成的代码的质量(quality) 存在差异，应根据环境、应用场景的不同开启不同的 source map，此处参考 create-react-app 的配置，开发环境开启`cheap-module-source-map`
+注:source map 存在各种组合, 不同组合的构建(build)、重新构建(rebuild) 速度以及生成的代码的质量(quality) 存在差异, 应根据环境、应用场景的不同开启不同的 source map.
+
+此处参考 create-react-app 的配置, 开发环境开启`cheap-module-source-map`
 
 推荐阅读:
 
@@ -357,22 +361,22 @@ module.exports = {
 
 以下内容总结自:[Webpack 大法之 Code Splitting
 ](https://zhuanlan.zhihu.com/p/26710831)
-强烈好文，推荐阅读
+强烈好文, 推荐阅读
 
-现在我们的 bundle.js 太过臃肿，存在两个问题
+现在我们的 bundle.js 太过臃肿, 存在两个问题
 
-1.  第三方库无法进行缓存，和业务代码打包在一起
-2.  首屏压力过大，第一次加载所有代码
+1.  第三方库无法进行缓存, 和业务代码打包在一起
+2.  首屏压力过大, 第一次加载所有代码
 
 解决方案:
 
-- 分离业务代码和第三方库（vendor,CommonsChunkPlugin），进行第三方库缓存
-- 按需加载（利用 react-loadable(import())），只加载首屏需要的代码，减轻首屏压力
+- 分离业务代码和第三方库（vendor, CommonsChunkPlugin）, 进行第三方库缓存
+- 按需加载（利用 react-loadable(import())）, 只加载首屏需要的代码, 减轻首屏压力
 
 ### 准备工作
 
 通过[webpack-bundle-analyzer
-](https://www.npmjs.com/package/webpack-bundle-analyzer)插件，可以使我们更为直观的观察到打包文件的变化
+](https://www.npmjs.com/package/webpack-bundle-analyzer)插件, 可以使我们更为直观的观察到打包文件的变化
 
 安装
 
@@ -394,18 +398,18 @@ module.exports = {
 
 ### 提取公用代码
 
-回忆一下之前的打包方式，
+回忆一下之前的打包方式,
 
 1.  确定入口 - index.js
 2.  确定出口 - bundle.js(包含业务代码以及第三方库)
-3.  创建 Html 文件，引入 bundle.js
+3.  创建 Html 文件, 引入 bundle.js
 
 现在修改入口为业务代码入口以及第三方库代码入口
 
 ```js
 entry: {
-  app: path.join(__dirname, '../src/index.js'),
-  vendor: ['react', 'react-router-dom', 'react-dom']
+  app: path.join(__dirname,  '../src/index.js'),
+  vendor: ['react',  'react-router-dom',  'react-dom']
 },
 ```
 
@@ -413,35 +417,38 @@ entry: {
 
 ```js
 output: {
-  path: path.join(__dirname, '../dist'),
+  path: path.join(__dirname,  '../dist'),
   filename: '[name].[chunkhash].js'
 },
 ```
 
-注:此处使用 chunkhash 而非 hash 是为了保证打包出来的 vendor 不会受业务代码的变更导致 vendor 的文件指纹(hash)变更，有利于进行缓存，还有一个 contenthash 可以用于处理 CSS 文件 hash 值失效的问题，推荐阅读[这篇文章](https://github.com/happylindz/blog/issues/7)
+注: 此处使用 chunkhash 而非 hash 是为了保证打包出来的 vendor 不会受业务代码的变更导致 vendor 的文件指纹(hash)变更, 有利于进行缓存.
+还有一个 contenthash 可以用于处理 CSS 文件 hash 值失效的问题, 推荐阅读[这篇文章](https://github.com/happylindz/blog/issues/7)
 
 再注:
-[热更新(HMR)不能和[chunkhash]同时使用](https://segmentfault.com/q/1010000011438869/a-1020000011441168)。
-解决方法:
-1: 如果是开发环境，将配置文件中的 chunkhash 替换为 hash
-2:如果是生产环境，不要使用参数 --hot
-所以我们暂时先改为 hash。
+[热更新(HMR)不能和[chunkhash]同时使用](https://segmentfault.com/q/1010000011438869/a-1020000011441168).
 
-现在我们运行`npm start`可以看见 webpack-bundle-analyzer 为我们生成的打包地图，实现了第三方库 vendor 与业务代码 app 的分离。
-如果改为 chunkhash ，修改业务代码也不会影响 vendor 名称变化。
+解决方法:
+1: 如果是开发环境, 将配置文件中的 chunkhash 替换为 hash
+2:如果是生产环境, 不要使用参数 --hot
+所以我们暂时先改为 hash.
+
+现在我们运行`npm start`可以看见 webpack-bundle-analyzer 为我们生成的打包地图, 实现了第三方库 vendor 与业务代码 app 的分离.
+如果改为 chunkhash , 修改业务代码也不会影响 vendor 名称变化.
 
 但是现在存在两个问题:
 
-1.  页面报错。很明显，我们打包出来的 js 不是原来的 bundle.js ，需要每次打包后，修改 Html 文件中引入的 js 文件名吗？
+1.  页面报错.很明显, 我们打包出来的 js 不是原来的 bundle.js , 需要每次打包后, 修改 Html 文件中引入的 js 文件名吗？
 
-2.  随着依赖库的增加，每次都要去修改入口文件吗？
+2.  随着依赖库的增加, 每次都要去修改入口文件吗？
 
 #### html-webpack-plugin
 
 解决问题 1
-[html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)This is a webpack plugin that simplifies creation of HTML files to serve your webpack bundles.This is especially useful for webpack bundles that include a hash in the filename which changes every compilation.
 
-这是一个 可以简化 HTML 文件的创建的 webpack 插件，以便为您的 webpack 打包后的文件提供服务。这对于每次打包过程中造成文件名 hash 修改的打包文件特别有用。
+[html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin): This is a webpack plugin that simplifies creation of HTML files to serve your webpack bundles.This is especially useful for webpack bundles that include a hash in the filename which changes every compilation.
+
+这是一个 可以简化 HTML 文件的创建的 webpack 插件, 以便为您的 webpack 打包后的文件提供服务.这对于每次打包过程中造成文件名 hash 修改的打包文件特别有用.
 
 安装
 
@@ -451,7 +458,7 @@ npm i --save-dev html-webpack-plugin
 
 使用
 
-1.  在根路径下创建一个 public 文件夹，在文件夹内创建自己的 html 模板文件
+1.  在根路径下创建一个 public 文件夹, 在文件夹内创建自己的 html 模板文件
 
 2.  webpack.dev.config.js
 
@@ -467,11 +474,11 @@ module.exports = {
 
 解决问题 2
 
-移除入口文件的 vendor，修改 Plugin
+移除入口文件的 vendor, 修改 Plugin
 
 ```js
 entry: {
-  app: path.join(__dirname, '../src/index.js')
+  app: path.join(__dirname,  '../src/index.js')
 },
 ```
 
@@ -486,7 +493,7 @@ plugins:[
     })],
 ```
 
-将 node_modules 中以.js 结尾的文件打包到 vendor chunk，如果 vendor chunk 不存在的话，就创建一个新的。
+将 node_modules 中以.js 结尾的文件打包到 vendor chunk, 如果 vendor chunk 不存在的话, 就创建一个新的.
 
 ### 按需加载
 

@@ -422,7 +422,14 @@ output: {
 },
 ```
 
-注: 此处使用 chunkhash 而非 hash 是为了保证打包出来的 vendor 不会受业务代码的变更导致 vendor 的文件指纹(hash)变更, 有利于进行缓存.
+注:
+
+hash: 每次编译文件都会生成一个新的 hash，也就是完全无法利用缓存.
+
+chunkhash: 根据内容来生成的,只要内容不变,生成的值就不会发生变化.
+
+此处使用 chunkhash 而非 hash 是为了保证打包出来的 vendor 不会受业务代码的变更导致 vendor 的文件 hash 值变更, 有利于进行缓存.
+
 还有一个 contenthash 可以用于处理 CSS 文件 hash 值失效的问题, 推荐阅读[这篇文章](https://github.com/happylindz/blog/issues/7)
 
 再注:
@@ -442,9 +449,7 @@ output: {
 },
 ```
 
-运行`npm start`可以看见 webpack-bundle-analyzer 为我们生成的打包地图
-
-实现了第三方库 vendor 与业务代码 app 的分离
+运行`npm start`可以看见 webpack-bundle-analyzer 为我们生成的打包地图,实现了第三方库 vendor 与业务代码 app 的分离
 
 如果在生产环境改为 chunkhash , 修改业务代码也不会影响 vendor 名称变化.
 
@@ -525,12 +530,56 @@ plugins: ['@babel/plugin-syntax-dynamic-import']
 
 注: 由于之前基于 babel-preset-stage0 进行了 npm upgrade 操作,默认戴上了这个插件,其实我们不需要配置,但是我们需要知道是依赖这个插件的.
 
-react-loadable 的具体原理可以看我写的[这篇文章](https://worldzhao.github.io/2018/02/05/react-loadable/)
+react-loadable 的使用方法及原理可以看我写的[这篇文章](https://worldzhao.github.io/2018/02/05/react-loadable/)
+
+定义一个通用的生成异步组件的方法
+
+/src/router/createAsyncComp.js
+
+```js
+import Loadable from 'react-loadable'
+/* 随便定义一个简单的Loading组件 */
+import Loading from 'components/Loading'
+
+export const createAsyncComp = compDir => {
+  return Loadable({
+    loader: () => import(`views/${compDir}`),
+    loading: Loading
+  })
+}
+```
+
+将 Route 组件的 component 属性由普通组件更换为我们生成的异步组件.
+
+/src/router/rooter.js
+
+```jsx
+<Route exact path="/" component={createAsyncComp('Home')} />
+```
+
+修改 webpack.dev.config.js 的出口
+
+```js
+module.exports = {
+  output: {
+    path: path.join(__dirname, '../dist'),
+    filename: '[name].[hash].js',
+    // 异步打包文件的命名方式
+    chunkFilename: '[name].[chunkhash].js'
+  }
+}
+```
+
+执行 npm start 可以观察到已经根据路由打包了若干个组件的 js 文件
+
+切换路由才会引用对应的 js 文件
 
 #### 按需加载的问题
 
 ## 缓存
 
+````
 ```
 
 ```
+````

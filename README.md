@@ -429,12 +429,24 @@ output: {
 [热更新(HMR)不能和[chunkhash]同时使用](https://segmentfault.com/q/1010000011438869/a-1020000011441168).
 
 解决方法:
-1: 如果是开发环境, 将配置文件中的 chunkhash 替换为 hash
-2:如果是生产环境, 不要使用参数 --hot
-所以我们暂时先改为 hash.
 
-现在我们运行`npm start`可以看见 webpack-bundle-analyzer 为我们生成的打包地图, 实现了第三方库 vendor 与业务代码 app 的分离.
-如果改为 chunkhash , 修改业务代码也不会影响 vendor 名称变化.
+1.  如果是开发环境, 将配置文件中的 chunkhash 替换为 hash
+2.  如果是生产环境, 不要使用参数 --hot
+
+为了在开发环境能够使用热更新, 暂时先改为 hash.
+
+```js
+output: {
+  path: path.join(__dirname,  '../dist'),
+  filename: '[name].[hash].js'
+},
+```
+
+运行`npm start`可以看见 webpack-bundle-analyzer 为我们生成的打包地图
+
+实现了第三方库 vendor 与业务代码 app 的分离
+
+如果在生产环境改为 chunkhash , 修改业务代码也不会影响 vendor 名称变化.
 
 但是现在存在两个问题:
 
@@ -466,7 +478,11 @@ npm i --save-dev html-webpack-plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  plugins: [new HtmlWebpackPlugin()]
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, '../public/index.html')
+    })
+  ]
 }
 ```
 
@@ -495,7 +511,23 @@ plugins:[
 
 将 node_modules 中以.js 结尾的文件打包到 vendor chunk, 如果 vendor chunk 不存在的话, 就创建一个新的.
 
+注: 在 webpack v4 中 CommonsChunkPlugin 已经被移除了,但是优化的思路依旧是值得学习的.
+
 ### 按需加载
+
+此处使用 react-loadable 这个库来进行按需加载,也是 react-router-v4 官方推荐的方式.
+
+因为底层是通过 dynamic import 来实现的,所以需要配置 babel.
+
+```js
+plugins: ['@babel/plugin-syntax-dynamic-import']
+```
+
+注: 由于之前基于 babel-preset-stage0 进行了 npm upgrade 操作,默认戴上了这个插件,其实我们不需要配置,但是我们需要知道是依赖这个插件的.
+
+react-loadable 的具体原理可以看我写的[这篇文章](https://worldzhao.github.io/2018/02/05/react-loadable/)
+
+#### 按需加载的问题
 
 ## 缓存
 

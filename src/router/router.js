@@ -1,8 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
-import Home from 'views/Home'
-import Demo from 'views/Demo'
 import { hot } from 'react-hot-loader'
+import { createAsyncComp } from './createAsyncComp'
 
 class App extends React.Component {
   render() {
@@ -18,8 +17,8 @@ class App extends React.Component {
             </li>
           </ul>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/page1" component={Demo} />
+            <Route exact path="/" component={createAsyncComp('Home')} />
+            <Route path="/page1" component={createAsyncComp('Demo')} />
           </Switch>
         </div>
       </Router>

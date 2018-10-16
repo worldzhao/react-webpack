@@ -627,8 +627,3 @@ new webpack.optimize.CommonsChunkPlugin({
 
 ## 缓存
 
-````
-```
-
-```
-````

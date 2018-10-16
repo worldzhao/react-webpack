@@ -1,5 +1,6 @@
-import '@babel/polyfill'
+// import '@babel/polyfill'
 const elements = [1, 2, 3].map(item => {
+  console.log('foobar'.includes('foo'))
   return console.log('9999')
 })
 

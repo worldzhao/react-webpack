@@ -8,7 +8,7 @@
                         "IE >= 9"
                     ]
                 },
-                "useBuiltIns": "entry"
+                "useBuiltIns": "usage"
             }
         ],
         "@babel/preset-react"

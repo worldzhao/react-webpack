@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import axios from 'axios'
+import Hello from 'components/Hello'
 import './index.less'
 import imgSrc from './little-pic.jpg'
 export default class Home extends Component {
@@ -17,6 +19,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="less-test">
+        <Hello />
         this is home~<br />
         当前计数：{this.state.count}
         <br />

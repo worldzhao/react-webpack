@@ -360,8 +360,7 @@ module.exports = {
 ## Code Splitting
 
 以下内容总结自:[Webpack 大法之 Code Splitting
-](https://zhuanlan.zhihu.com/p/26710831)
-强烈好文, 推荐阅读
+](https://zhuanlan.zhihu.com/p/26710831),强烈推荐
 
 现在我们的 bundle.js 太过臃肿, 存在两个问题
 
@@ -454,6 +453,9 @@ output: {
 ```
 bundle => app + vendor
 ```
+
+![app+vendor.png](https://upload-images.jianshu.io/upload_images/4869616-bd4733ff0740f046.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 如果在生产环境改为 chunkhash , 修改业务代码也不会影响 vendor 名称变化.
 
 但是现在存在两个问题:
@@ -578,9 +580,50 @@ module.exports = {
 ```
 bundle => app + vendor + chunk1 + chunk2 ...
 ```
+
+![app+vendor+chunk.png](https://upload-images.jianshu.io/upload_images/4869616-bb5cfe815dfaa93a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 切换路由才会引用对应的 js 文件
 
 #### 按需加载的问题
+
+类似于 axios 这种大多数页面组件[异步]会使用到的第三方库,会被重复打包.
+
+自定义组件被页面组件多次引用也会被重复打包.
+
+在 components 文件夹下创建一个简单的 Hello 组件,分别在 Demo 组件和 Home 组件分别引入 Hello 组件.
+
+![chunk1打包了Hello.png](https://upload-images.jianshu.io/upload_images/4869616-020e1c94cc20b3f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![chunk22打包了Hello.png](https://upload-images.jianshu.io/upload_images/4869616-8bd099faf9269825.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+打包后会发现,Hello 组件被分别打包进了不同的 chunk
+
+解决方案:
+
+```js
+// async模式下公用的第三方库打包到common-in-lazy
+new webpack.optimize.CommonsChunkPlugin({
+  async: 'common-in-lazy',
+  minChunks: ({ resource } = {}) =>
+    resource && resource.includes('node_modules') && /axios/.test(resource)
+}),
+```
+
+```js
+// async模式下使用过超两次以上的模块打包到used-twice
+new webpack.optimize.CommonsChunkPlugin({
+  async: 'used-twice',
+  minChunks: (module, count) => count >= 2
+})
+```
+
+可以只保留下面的配置,将 async 模式下出现过两次以上的第三方库和自定义组件同时打包到 used-twice,可能会造成不必要的引入
+
+现在,异步组件依赖的第三方库和自定义组件只有在路由匹配的时候才会和异步组件 chunk 一起被加载进来
+
+推荐阅读:[Webpack 大法之 Code Splitting
+](https://zhuanlan.zhihu.com/p/26710831)
 
 ## 缓存
 

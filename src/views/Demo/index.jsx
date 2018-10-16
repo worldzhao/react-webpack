@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
+import axios from 'axios'
+import Hello from 'components/Hello'
+import './index.less'
 export default class Page1 extends Component {
   render() {
-    return <div>this is Page1~234阿斯达斯</div>
+    return (
+      <>
+        <Hello />
+        <div id="demo-test">this is Page1~234</div>
+      </>
+    )
   }
 }

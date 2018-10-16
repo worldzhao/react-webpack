@@ -4,14 +4,19 @@
             "@babel/preset-env",
             {
                 "targets": { "browsers": "last 2 versions" } ,
-                "useBuiltIns": "entry"
+                "useBuiltIns": "usage"
             }
         ],
         "@babel/preset-react"
     ],
     "plugins": [
         "react-hot-loader/babel",
-        "@babel/plugin-transform-runtime",
+        ["@babel/plugin-transform-runtime", {
+            "corejs": false,
+            "helpers": true,
+            "regenerator": false,
+            "useESModules": false
+        }],
         "@babel/plugin-syntax-dynamic-import",
         "@babel/plugin-syntax-import-meta",
         "@babel/plugin-proposal-class-properties",

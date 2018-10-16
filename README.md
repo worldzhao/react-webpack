@@ -34,7 +34,7 @@ stage-0 = stage-1 + stage-2 + stage-3
 | ------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------- | ------------------ |
 | @babel/runtime + @babel/plugin-transform-runtime        | 按需引入, 打包体积小, 移除冗余工具函数(helper function) | 不模拟实例方法                         | 开发库、工具中使用 |
 | @babel/polyfill                                         | 完整模拟 ES2015+环境                                    | 体积过大, 污染全局对象和内置的对象原型 | 应用中使用         |
-| @babel/preset-env[useBuiltIns:"entry"] + babel-polyfill | 按需引入, 以 target 最低要求为准                        | 可配置性高                             | -                  |
+| @babel/preset-env[useBuiltIns:"entry"] + babel-polyfill | 按~~需~~浏览器引入, 以 target 最低要求为准              | 可配置性高                             | -                  |
 
 注:方案 1 中的@babel/runtime + @babel/plugin-transform-runtime 在 babel7 下只包含 helpers, 如果想实现 polyfill , 需要使用@babel/runtime-corejs2, [升级详情](https://babel.docschina.org/docs/en/v7-migration#babel-runtime-babel-plugin-transform-runtime)
 
@@ -43,6 +43,8 @@ stage-0 = stage-1 + stage-2 + stage-3
     "corejs": 2
 }],
 ```
+
+要实现真正的按需引入,即使用什么新特性打包什么新特性,可以使用实验性的 useBuildIns:"usage".
 
 ### [Babel 正在向每个文件中注入 helper 并使代码膨胀](https://github.com/babel/babel-loader)
 
@@ -626,4 +628,3 @@ new webpack.optimize.CommonsChunkPlugin({
 ](https://zhuanlan.zhihu.com/p/26710831)
 
 ## 缓存
-

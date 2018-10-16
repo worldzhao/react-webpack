@@ -451,6 +451,9 @@ output: {
 
 运行`npm start`可以看见 webpack-bundle-analyzer 为我们生成的打包地图,实现了第三方库 vendor 与业务代码 app 的分离
 
+```
+bundle => app + vendor
+```
 如果在生产环境改为 chunkhash , 修改业务代码也不会影响 vendor 名称变化.
 
 但是现在存在两个问题:
@@ -572,6 +575,9 @@ module.exports = {
 
 执行 npm start 可以观察到已经根据路由打包了若干个组件的 js 文件
 
+```
+bundle => app + vendor + chunk1 + chunk2 ...
+```
 切换路由才会引用对应的 js 文件
 
 #### 按需加载的问题

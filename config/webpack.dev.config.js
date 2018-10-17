@@ -87,11 +87,11 @@ module.exports = {
         resource.indexOf('node_modules') >= 0 &&
         resource.match(/\.js$/)
     }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   async: 'common-in-lazy',
-    //   minChunks: ({ resource } = {}) =>
-    //     resource && resource.includes('node_modules') && /axios/.test(resource)
-    // }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'common-in-lazy',
+      minChunks: ({ resource } = {}) =>
+        resource && resource.includes('node_modules') && /axios/.test(resource)
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       async: 'used-twice',
       minChunks: (module, count) => count >= 2

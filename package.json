@@ -53,6 +53,7 @@
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "webpack": "^3.12.0",
+    "webpack-api-mocker": "^1.5.15",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-dev-server": "^2.11.3"
   },

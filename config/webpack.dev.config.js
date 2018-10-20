@@ -4,6 +4,10 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 /* 自动生成html文件并且导入打包后的 js 的工具 */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+/* 数据mock工具 */
+const apiMocker = require('webpack-api-mocker')
+
+const mockDataPath = '../mock/index.js'
 /* node处理路径的工具库 */
 const path = require('path')
 
@@ -74,7 +78,11 @@ module.exports = {
     /* 热更新 */
     hot: true,
     /* 自动打开页面 */
-    open: true
+    open: true,
+    /* 数据Mock */
+    before(app) {
+      apiMocker(app, path.resolve(__dirname, mockDataPath))
+    }
   },
   /* webpack 热更新 插件*/
   plugins: [

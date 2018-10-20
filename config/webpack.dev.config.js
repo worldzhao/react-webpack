@@ -4,12 +4,12 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 /* 自动生成html文件并且导入打包后的 js 的工具 */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-/* 数据mock工具 */
-const apiMocker = require('webpack-api-mocker')
-
-const mockDataPath = '../mock/index.js'
 /* node处理路径的工具库 */
 const path = require('path')
+/* 数据mock工具 */
+const apiMocker = require('webpack-api-mocker')
+/* Mock数据源路径 */
+const mockDataPath = '../mock/index.js'
 
 module.exports = {
   /* 入口文件 */
@@ -81,7 +81,17 @@ module.exports = {
     open: true,
     /* 数据Mock */
     before(app) {
-      apiMocker(app, path.resolve(__dirname, mockDataPath))
+      apiMocker(app, path.resolve(__dirname, mockDataPath), {})
+    },
+    proxy: {
+      '/api': {
+        target: 'http://119.29.241.71:3000/',
+        pathRewrite: {
+          '^/api': ''
+        },
+        /* 支持https */
+        secure: false
+      }
     }
   },
   /* webpack 热更新 插件*/

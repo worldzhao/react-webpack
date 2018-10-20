@@ -638,4 +638,54 @@ new webpack.optimize.CommonsChunkPlugin({
 推荐阅读:[Webpack 大法之 Code Splitting
 ](https://zhuanlan.zhihu.com/p/26710831)
 
-## 缓存
+## 数据 Mock
+
+在前后端约定好 api 接口后,同步进行开发,前端没有数据支持,造成了阻塞.解决方案:webpack-api-mocker + mockjs
+
+### [webpack-api-mocker](https://github.com/jaywcjlove/webpack-api-mocker)
+
+webpack-api-mocker 是一个 webpack-dev-serve 的中间件,用于为 REST APIs 提供 Mock 数据.
+
+---
+
+题外话:
+webpack-dev-server 本质就是一个 express 服务,通过各种中间件[webpack-dev-middleware/webpack-hot-middleware/http-proxy-middleware 等等]为我们提供了一个舒心的开发环境,静态资源托管/热更新/接口转发代理等等,既然是 express 服务,就可以注册路由返回数据,webpack-api-mocker 便是利用 webpack-dev-server 提供的 before 钩子函数对其`app`注册我们定义的路由并返回 mock 数据
+
+---
+
+- 安装
+
+```
+npm install webpack-api-mocker --save-dev
+```
+
+- 使用
+
+webpck.dev.config.js
+
+```js
+const apiMocker = require('webpack-api-mocker')
+
+module.exports = {
+  devServer: {
+    // ...
+    before(app) {
+      apiMocker(app, path.resolve('./mocker/index.js'), {})
+    }
+  }
+}
+```
+
+### mock.js
+
+---
+
+后端将代码部署到测试环境后,前端需要代理接口到线上,从而能够本地进行代码调试.解决方案:webpack-dev-server 的 proxy 字段进行转发,**如果接口需要认证信息 oAuth 如何处理?**;
+
+接口代理到线上后,如果线上接口请求失败则转用 Mock 数据;
+
+接口代理到线上后,可以有选择性地进行线上数据与 Mock 数据的切换.
+
+很明显 实现简单的接口代理以及数据 mock 通过 webpack-dev-server 已经足矣,但是定制化操作过多的时候,就显得有些力不从心了,这个时候就可能需要自己去编写一个专门用来处理这些问题的脚本.
+
+webpack 也是可以通过 node 模块的形式调用,自己起一个 express 服务器,通过相关中间件打造一个符合要求的 dev-server 即可.
